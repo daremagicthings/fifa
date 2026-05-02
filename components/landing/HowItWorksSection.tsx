@@ -1,12 +1,13 @@
-import { motion } from 'framer-motion'
+'use client'
+import { motion, type Variants } from 'framer-motion'
 import SectionLabel from '@/components/ui/SectionLabel'
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
 }
 
-const stagger = { visible: { transition: { staggerChildren: 0.08 } } }
+const stagger: Variants = { visible: { transition: { staggerChildren: 0.08 } } }
 
 const factors = [
   { icon: '📊', label: 'FIFA Ranking',    weight: 0.45, desc: 'The most direct signal of current squad strength' },

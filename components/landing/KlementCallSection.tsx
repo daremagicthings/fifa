@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion'
+'use client'
+import { motion, type Variants } from 'framer-motion'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Btn from '@/components/ui/Btn'
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
 }
