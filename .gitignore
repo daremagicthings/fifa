@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project-local guides (not for public repo)
+ZAUTH-GUIDE.md
