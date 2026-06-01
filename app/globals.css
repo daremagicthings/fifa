@@ -25,8 +25,20 @@ body {
   font-family: var(--font-pixel), monospace;
   font-size: 10px;
   line-height: 1.8;
-  background: var(--color-bg);
+  background-color: var(--color-bg);
   color: var(--color-txt);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+/* Content width constraint — matches reference-ui.jsx maxWidth: 680 */
+.page-wrap {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* ── Pixel double-outline borders ── */

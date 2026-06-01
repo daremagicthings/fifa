@@ -18,15 +18,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={pixelFont.variable}>
-      <body className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--color-bg)' }}>
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <footer className="footer">
-          <span style={{ fontSize: 6, color: 'var(--color-muted)' }}>
-            © 2026 KLEMENT MODEL · ALL SIMULATIONS RUN IN-BROWSER
-          </span>
-          <span style={{ fontSize: 6, color: 'var(--color-r)' }}>PANMURE LIBERUM ▲</span>
-        </footer>
+      <body>
+        <div className="page-wrap">
+          <Nav />
+          <main>{children}</main>
+          <footer className="footer">
+            <span style={{ fontSize: 6, color: 'var(--color-muted)' }}>
+              © 2026 KLEMENT MODEL · ALL SIMULATIONS RUN IN-BROWSER
+            </span>
+            <span style={{ fontSize: 6, color: 'var(--color-r)' }}>PANMURE LIBERUM ▲</span>
+          </footer>
+        </div>
       </body>
     </html>
   )
