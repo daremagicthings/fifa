@@ -27,7 +27,7 @@ export default function GroupMatchRow({ teamA, teamB, result }: Props) {
       borderBottom: '1px solid var(--color-brd)',
     }}>
       <FlagImg name={teamA} h={12} emoji={tA?.flag ?? '🏳️'} />
-      <span style={{ color: 'var(--color-txt)', minWidth: 64 }}>{teamA.slice(0, 10)}</span>
+      <span style={{ color: 'var(--color-txt)', minWidth: 64, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{teamA}</span>
       {result ? (
         <span style={{ flex: 1, textAlign: 'center', color: resultColor, fontWeight: 'bold' }}>{resultLabel}</span>
       ) : (
@@ -37,7 +37,7 @@ export default function GroupMatchRow({ teamA, teamB, result }: Props) {
           <span style={{ color: 'var(--color-b)' }}>{fmtPct(pB)}</span>
         </div>
       )}
-      <span style={{ color: 'var(--color-txt)', minWidth: 64, textAlign: 'right' }}>{teamB.slice(0, 10)}</span>
+      <span style={{ color: 'var(--color-txt)', minWidth: 64, textAlign: 'right', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{teamB}</span>
       <FlagImg name={teamB} h={12} emoji={tB?.flag ?? '🏳️'} />
     </div>
   )

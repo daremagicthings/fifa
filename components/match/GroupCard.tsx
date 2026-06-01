@@ -20,6 +20,7 @@ function buildFixtures(teams: string[]): [string, string][] {
 
 export default function GroupCard({ group, teams }: Props) {
   const [open, setOpen] = useState(false)
+  const [tick, setTick] = useState(0)
 
   const { standings, results } = useMemo(() => {
     const fixtures = buildFixtures(teams)
@@ -27,11 +28,19 @@ export default function GroupCard({ group, teams }: Props) {
       teamA: a, teamB: b, result: simResult(a, b),
     }))
     return { standings: calcStandings(teams, results), results }
-  }, [teams])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teams, tick])
 
   return (
     <div className="group-card">
-      <div className="group-header">GROUP {group}</div>
+      <div className="group-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>GROUP {group}</span>
+        <button
+          onClick={() => setTick(t => t + 1)}
+          title="Re-simulate"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 10, color: 'var(--color-b)', padding: 0, lineHeight: 1 }}
+        >🎲</button>
+      </div>
       <table className="group-table">
         <thead>
           <tr>
@@ -46,10 +55,10 @@ export default function GroupCard({ group, teams }: Props) {
             const advancing = i < 2
             return (
               <tr key={s.team}>
-                <td>
+                <td style={{ maxWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {advancing && <span className="qual-dot" />}
                   <FlagImg name={s.team} h={14} emoji={t?.flag ?? '🏳️'} />
-                  {' '}{s.team.slice(0, 10)}
+                  {' '}{s.team}
                 </td>
                 <td>{s.w}</td>
                 <td>{s.d}</td>
