@@ -25,17 +25,17 @@ export default function H2HList({ name }: Props) {
         const t = teamData(opp)
         return (
           <div key={opp} className="h2h-row">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9, overflow: 'hidden' }}>
               <FlagImg name={name} h={16} emoji={me?.flag ?? '🏳️'} />
-              {name.slice(0, 10)}
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
             </div>
             <div className="h2h-bar">
               <div className="h2h-a" style={{ flex: pAp }}>{pAp}%</div>
               <div className="h2h-d" style={{ flex: drp }}>{drp}%</div>
               <div className="h2h-b" style={{ flex: pBp }}>{pBp}%</div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9, justifyContent: 'flex-end', color: 'var(--color-muted)' }}>
-              {opp.slice(0, 10)}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9, justifyContent: 'flex-end', color: 'var(--color-muted)', overflow: 'hidden' }}>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{opp}</span>
               <FlagImg name={opp} h={16} emoji={t?.flag ?? '🏳️'} />
             </div>
           </div>
