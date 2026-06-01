@@ -1,9 +1,12 @@
 import GroupCard from '@/components/match/GroupCard'
 import { GROUPS } from '@/lib/fixtures'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 export default function GroupsPage() {
   return (
-    <div className="sec page-enter">
+    <div className="sec page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant="blue" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="section-title">GROUP STAGE — 12 GROUPS</div>
       <div style={{ fontSize: 9, color: 'var(--color-muted)', marginBottom: 24, lineHeight: 2, display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className="qual-dot" /> QUALIFIED TO ROUND OF 32
@@ -12,6 +15,7 @@ export default function GroupsPage() {
         {Object.entries(GROUPS).map(([group, teams]) => (
           <GroupCard key={group} group={group} teams={teams} />
         ))}
+      </div>
       </div>
     </div>
   )

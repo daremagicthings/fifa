@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { teamNames, teamData, sc } from '@/lib/klement'
 import FactorBreakdown from '@/components/team/FactorBreakdown'
 import H2HList from '@/components/team/H2HList'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 const allTeams = teamNames().sort()
 
@@ -12,7 +13,9 @@ export default function TeamsPage() {
   const score = sc(selected)
 
   return (
-    <div className="sec page-enter">
+    <div className="sec page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant="green" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="section-title">TEAM PROFILE</div>
 
       <select
@@ -41,6 +44,7 @@ export default function TeamsPage() {
 
       <div style={{ marginTop: 32 }}>
         <H2HList name={selected} />
+      </div>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { matchP, teamNames, teamData } from '@/lib/klement'
 import WDLBar from '@/components/ui/WDLBar'
 import FactorBreakdown from '@/components/team/FactorBreakdown'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 const allTeams = teamNames().sort()
 
@@ -15,7 +16,9 @@ export default function LookupPage() {
   const tB = teamData(teamB)
 
   return (
-    <div className="sec page-enter">
+    <div className="sec page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant="red" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="section-title">MATCH LOOKUP</div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 16, alignItems: 'center', marginBottom: 24 }}>
@@ -54,6 +57,7 @@ export default function LookupPage() {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   )

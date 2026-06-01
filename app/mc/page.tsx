@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { simKO, teamData } from '@/lib/klement'
 import { ROUNDS } from '@/lib/fixtures'
 import PixelBar from '@/components/ui/PixelBar'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 type ChampCounts = Record<string, number>
 
@@ -51,7 +52,9 @@ export default function MCPage() {
   const maxCount = sorted ? sorted[0]?.[1] ?? 1 : 1
 
   return (
-    <div className="sec page-enter">
+    <div className="sec page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant="mix" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="section-title">MONTE CARLO SIMULATOR</div>
       <div style={{ fontSize: 10, color: 'var(--color-muted)', lineHeight: 2.2, marginBottom: 28 }}>
         EACH SIMULATION RUNS THE FULL BRACKET WITH W/D/L PROBABILITIES FROM THE MODEL.
@@ -102,6 +105,7 @@ export default function MCPage() {
           PRESS RUN TO SIMULATE THE TOURNAMENT...
         </div>
       )}
+      </div>
     </div>
   )
 }

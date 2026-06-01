@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { matchP, teamData } from '@/lib/klement'
 import { ROUNDS, ROUND_LABELS } from '@/lib/fixtures'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 const ROUND_ORDER = ['r32', 'r16', 'qf', 'sf', 'final'] as const
 type Round = typeof ROUND_ORDER[number]
@@ -18,7 +19,9 @@ export default async function KnockoutPage({ params }: { params: Promise<{ round
   const isFinal = round === 'final'
 
   return (
-    <div className="page-enter">
+    <div className="page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant={isFinal ? 'green' : 'mix'} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="ko-tabs">
         {ROUND_ORDER.map(r => (
           <Link key={r} href={`/knockout/${r}`} className={`ko-tab${round === r ? ' active' : ''}`}>
@@ -29,8 +32,9 @@ export default async function KnockoutPage({ params }: { params: Promise<{ round
 
       <div style={{ padding: '36px 36px' }}>
         <div style={{ fontSize: 10, color: 'var(--color-muted)', marginBottom: 24, letterSpacing: 1 }}>
+          {isFinal && <span className="trophy-pulse" style={{ marginRight: 8 }}>🏆</span>}
           {ROUND_LABELS[round].toUpperCase()}
-          {isFinal && <span style={{ color: 'var(--color-g)', marginLeft: 12 }}>🏆 KLEMENT&apos;S HEADLINE CALL</span>}
+          {isFinal && <span style={{ color: 'var(--color-g)', marginLeft: 12 }}>KLEMENT&apos;S HEADLINE CALL</span>}
         </div>
 
         {matches.map((m, i) => {
@@ -70,6 +74,7 @@ export default async function KnockoutPage({ params }: { params: Promise<{ round
             </div>
           )
         })}
+      </div>
       </div>
     </div>
   )

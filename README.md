@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/next.svg" alt="WC26 Klement" width="80" style="margin-bottom:16px" />
+<img src="public/mascot.jpeg" alt="WC26 Klement" width="180" style="margin-bottom:16px" />
 
 # WC26 Klement
 

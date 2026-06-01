@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import PixelBar from '@/components/ui/PixelBar'
+import PixelParticles from '@/components/ui/PixelParticles'
 
 const factors = [
   { label: 'FIFA RANKING', pct: 45, color: 'var(--color-r)' },
@@ -11,7 +12,9 @@ const factors = [
 
 export default function AboutPage() {
   return (
-    <div className="sec page-enter">
+    <div className="sec page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+      <PixelParticles variant="red" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
       <div className="section-title">ABOUT THE MODEL</div>
       <div style={{ fontSize: 10, color: 'var(--color-muted)', lineHeight: 2.4, marginBottom: 28 }}>
         BUILT BY JOACHIM KLEMENT OF PANMURE LIBERUM.<br />
@@ -65,6 +68,7 @@ export default function AboutPage() {
           border: '2px solid var(--color-brd2)', boxShadow: '4px 4px 0 var(--color-brd)',
           textDecoration: 'none', display: 'inline-block',
         }}>RUN SIMULATIONS</Link>
+      </div>
       </div>
     </div>
   )
