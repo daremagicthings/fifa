@@ -6,6 +6,7 @@
 
 **An econometric model that called 2014, 2018 and 2022 correctly — now running on all 48 teams.**
 
+[![Follow on X](https://img.shields.io/badge/Follow-%40klementworldcup-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/klementworldcup)
 ![version](https://img.shields.io/badge/version-1.0.0-black?style=flat-square)
 ![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
 ![teams](https://img.shields.io/badge/teams-48-1A5FE8?style=flat-square)
