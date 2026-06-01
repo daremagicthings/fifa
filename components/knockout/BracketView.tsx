@@ -54,14 +54,13 @@ function MatchSlot({ teamA, teamB, k, top, isFinal, href }: {
   return (
     <Link
       href={href}
+      className={`bracket-match${isFinal ? ' bracket-final' : ''}`}
       style={{
         position: 'absolute',
         top,
         left: 0,
         right: 0,
         height: MATCH_H,
-        border: isFinal ? '1px solid var(--color-g)' : '1px solid var(--color-brd)',
-        backgroundColor: 'var(--color-bg)',
         overflow: 'hidden',
         boxSizing: 'border-box',
         textDecoration: 'none',
@@ -70,7 +69,7 @@ function MatchSlot({ teamA, teamB, k, top, isFinal, href }: {
       }}
     >
       <TeamRow name={teamA} isPick={k === teamA} />
-      <div style={{ height: 1, backgroundColor: isFinal ? 'var(--color-g-sh)' : 'var(--color-brd)' }} />
+      <div style={{ height: 1, backgroundColor: 'var(--color-brd)' }} />
       <TeamRow name={teamB} isPick={k === teamB} />
     </Link>
   )

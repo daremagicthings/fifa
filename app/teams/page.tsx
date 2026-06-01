@@ -48,9 +48,9 @@ export default function TeamsPage() {
                 return (
                   <tr key={name} style={{ cursor: 'pointer' }} onClick={() => { setSelected(name); setTab('profile') }}>
                     <td style={{ color: i < 3 ? 'var(--color-g)' : 'var(--color-muted)', fontWeight: i < 3 ? 'bold' : 'normal' }}>{i + 1}</td>
-                    <td>
-                      <FlagImg name={name} h={12} emoji={t?.flag ?? '🏳️'} />
-                      {' '}{name}
+                    <td style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <FlagImg name={name} h={16} emoji={t?.flag ?? '🏳️'} />
+                      {name}
                     </td>
                     <td style={{ textAlign: 'center', color: 'var(--color-g)', fontFamily: 'monospace' }}>{s.toFixed(3)}</td>
                     <td style={{ textAlign: 'center' }}>{t?.fifa}</td>

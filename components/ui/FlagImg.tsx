@@ -8,32 +8,43 @@ interface Props {
   emoji?: string
 }
 
-// flagcdn.com supported widths — use nearest to keep aspect ratio
-const SUPPORTED_WIDTHS = [16, 20, 24, 32, 40, 48, 64, 96, 160, 320]
-
-function nearestWidth(px: number): number {
-  return SUPPORTED_WIDTHS.reduce((best, w) =>
-    Math.abs(w - px) < Math.abs(best - px) ? w : best
-  )
-}
-
-export default function FlagImg({ name, h = 24, emoji = '🏳️' }: Props) {
+export default function FlagImg({ name, h = 24, emoji = '🏳' }: Props) {
   const [failed, setFailed] = useState(false)
   const code = FLAG_CODES[name]
 
+  const w = Math.round(h * 1.5)
+
   if (!code || failed) {
-    return <span style={{ fontSize: h * 1.2, lineHeight: 1, verticalAlign: 'middle' }}>{emoji}</span>
+    // Plain text country code fallback — readable on all platforms including Windows
+    return (
+      <span style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: w,
+        height: h,
+        fontSize: Math.max(6, Math.round(h * 0.45)),
+        color: 'var(--color-muted)',
+        backgroundColor: 'var(--color-surf)',
+        border: '1px solid var(--color-brd)',
+        fontFamily: 'monospace',
+        fontStyle: 'normal',
+        verticalAlign: 'middle',
+        lineHeight: 1,
+        boxSizing: 'border-box',
+        flexShrink: 0,
+      }}>
+        {code?.toUpperCase() ?? '?'}
+      </span>
+    )
   }
 
-  const targetW = Math.round(h * 1.5)
-  const w = nearestWidth(targetW)
-  const src = `https://flagcdn.com/w${w}/${code}.png`
-
+  // SVG from flagcdn.com — scales cleanly to any size, no width-bucketing needed
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
-      width={targetW}
+      src={`https://flagcdn.com/${code}.svg`}
+      width={w}
       height={h}
       alt={name}
       onError={() => setFailed(true)}
@@ -42,6 +53,7 @@ export default function FlagImg({ name, h = 24, emoji = '🏳️' }: Props) {
         verticalAlign: 'middle',
         border: '1px solid var(--color-brd)',
         objectFit: 'cover',
+        flexShrink: 0,
       }}
     />
   )

@@ -230,6 +230,12 @@ main { flex: 1; }
 .ko-tab:hover { background: var(--color-surf); color: var(--color-txt); }
 .ko-tab.active { background: var(--color-r-bg); color: var(--color-r); }
 
+/* ── Bracket match slot ── */
+.bracket-match { border: 1px solid var(--color-brd); background-color: var(--color-bg); transition: border-color .12s, background-color .12s, box-shadow .12s; }
+.bracket-match:hover { border-color: var(--color-b) !important; background-color: var(--color-b-bg) !important; box-shadow: 2px 2px 0 var(--color-b-sh); z-index: 2; position: relative; }
+.bracket-final { border-color: var(--color-g) !important; }
+.bracket-final:hover { border-color: var(--color-g) !important; background-color: var(--color-g-bg) !important; box-shadow: 2px 2px 0 var(--color-g-sh) !important; }
+
 /* ── Knockout match card ── */
 .ko-match {
   display: grid;
