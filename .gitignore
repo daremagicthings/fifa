@@ -42,6 +42,8 @@ next-env.d.ts
 
 # project-local guides and AI reference files (not for public repo)
 ZAUTH-GUIDE.md
+POLYMARKET.md
+AGENTS.md
 *refrence*.jsx
 *reference*.jsx
 NEW-ITERATION.md
