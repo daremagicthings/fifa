@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { matchP, teamData } from '@/lib/klement'
 import { ROUNDS, ROUND_LABELS, makeSlug } from '@/lib/fixtures'
-import PixelParticles from '@/components/ui/PixelParticles'
 import FlagImg from '@/components/ui/FlagImg'
+import PageTransition from '@/components/ui/PageTransition'
 
 const ROUND_ORDER = ['r32', 'r16', 'qf', 'sf', 'final'] as const
 type Round = typeof ROUND_ORDER[number]
@@ -20,73 +20,93 @@ export default async function KnockoutPage({ params }: { params: Promise<{ round
   const isFinal = round === 'final'
 
   return (
-    <div className="page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
-      <PixelParticles variant={isFinal ? 'green' : 'mix'} />
-      <div style={{ position: 'relative', zIndex: 1 }}>
-      <div className="ko-tabs">
-        <Link href="/knockout/bracket" className="ko-tab">BRACKET</Link>
-        {ROUND_ORDER.map(r => (
-          <Link key={r} href={`/knockout/${r}`} className={`ko-tab${round === r ? ' active' : ''}`}>
-            {r.toUpperCase()}
-          </Link>
-        ))}
-      </div>
+    <PageTransition>
+      <div className="page-enter" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ko-tabs">
+            <Link href="/knockout/bracket" className="ko-tab">BRACKET</Link>
+            {ROUND_ORDER.map(r => (
+              <Link key={r} href={`/knockout/${r}`} className={`ko-tab${round === r ? ' active' : ''}`}>
+                {r.toUpperCase()}
+              </Link>
+            ))}
+          </div>
 
-      <div style={{ padding: '36px 36px' }}>
-        <div style={{ fontSize: 10, color: 'var(--color-muted)', marginBottom: 24, letterSpacing: 1 }}>
-          {isFinal && <span className="trophy-pulse" style={{ marginRight: 8 }}>🏆</span>}
-          {ROUND_LABELS[round].toUpperCase()}
-          {isFinal && <span style={{ color: 'var(--color-g)', marginLeft: 12 }}>KLEMENT&apos;S HEADLINE CALL</span>}
+          <div style={{ padding: '36px 24px', maxWidth: 800, margin: '0 auto' }}>
+            <div style={{
+              fontSize: 13, color: 'var(--text-secondary)', marginBottom: 28, letterSpacing: 1,
+              display: 'flex', alignItems: 'center', gap: 10,
+            }}>
+              {isFinal && <span className="trophy-pulse" style={{ fontSize: 24 }}>🏆</span>}
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: 20, fontWeight: 400 }}>
+                {ROUND_LABELS[round].toUpperCase()}
+              </span>
+              {isFinal && <span style={{ color: 'var(--color-green)', marginLeft: 8, fontSize: 11, fontWeight: 700, letterSpacing: 2 }}>KLEMENT'S TITLE CALL</span>}
+            </div>
+
+            {matches.map((m, i) => {
+              const matchHref = `/knockout/${round}/${makeSlug(m.teamA, m.teamB)}`
+              const { pA, dr, pB } = matchP(m.teamA, m.teamB)
+              const pAp = Math.round(pA * 100)
+              const drp = Math.round(dr * 100)
+              const pBp = Math.round(pB * 100)
+              const tA = teamData(m.teamA)
+              const tB = teamData(m.teamB)
+              const pickIsA = m.k === m.teamA
+
+              return (
+                <Link
+                  key={i}
+                  href={matchHref}
+                  className="ko-match"
+                  style={{
+                    ...(isFinal ? {
+                      border: '1px solid rgba(24, 168, 74, 0.2)',
+                      background: 'var(--color-green-soft)',
+                    } : {}),
+                  }}
+                >
+                  <div>
+                    <div style={{ marginBottom: 8 }}>
+                      <FlagImg name={m.teamA} h={30} emoji={tA?.flag ?? '🏳️'} />
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.4, color: 'var(--text-primary)' }}>{m.teamA}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4, fontWeight: 600 }}>{tA?.conf}</div>
+                    {pickIsA && <span className="k-badge" style={{ marginTop: 8 }}>K✓ Pick</span>}
+                  </div>
+
+                  <div className="ko-mini-bar">
+                    <div style={{
+                      flex: pAp,
+                      background: 'linear-gradient(90deg, var(--color-blue), var(--color-blue-light))',
+                      color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700,
+                    }}>{pAp}%</div>
+                    <div style={{
+                      flex: drp,
+                      backgroundColor: 'var(--bg-muted)',
+                      color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11,
+                    }}>{drp}%</div>
+                    <div style={{
+                      flex: pBp,
+                      background: 'linear-gradient(90deg, var(--color-red-light), var(--color-red))',
+                      color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700,
+                    }}>{pBp}%</div>
+                  </div>
+
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ marginBottom: 8, display: 'flex', justifyContent: 'flex-end' }}>
+                      <FlagImg name={m.teamB} h={30} emoji={tB?.flag ?? '🏳️'} />
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.4, color: 'var(--text-primary)' }}>{m.teamB}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4, fontWeight: 600 }}>{tB?.conf}</div>
+                    {!pickIsA && m.k === m.teamB && <span className="k-badge" style={{ marginTop: 8 }}>K✓ Pick</span>}
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
         </div>
-
-        {matches.map((m, i) => {
-          const matchHref = `/knockout/${round}/${makeSlug(m.teamA, m.teamB)}`
-          const { pA, dr, pB } = matchP(m.teamA, m.teamB)
-          const pAp = Math.round(pA * 100)
-          const drp = Math.round(dr * 100)
-          const pBp = Math.round(pB * 100)
-          const tA = teamData(m.teamA)
-          const tB = teamData(m.teamB)
-          const pickIsA = m.k === m.teamA
-
-          return (
-            <Link
-              key={i}
-              href={matchHref}
-              className="ko-match"
-              style={{
-                textDecoration: 'none',
-                ...(isFinal ? { border: '2px solid var(--color-g)', boxShadow: '4px 4px 0 var(--color-g-sh)' } : {}),
-              }}
-            >
-              <div>
-                <div style={{ marginBottom: 6 }}>
-                  <FlagImg name={m.teamA} h={28} emoji={tA?.flag ?? '🏳️'} />
-                </div>
-                <div style={{ fontSize: 10, lineHeight: 1.8 }}>{m.teamA}</div>
-                <div style={{ fontSize: 9, color: 'var(--color-muted)', marginTop: 2 }}>{tA?.conf}</div>
-                {pickIsA && <span className="k-badge">K✓</span>}
-              </div>
-
-              <div className="ko-mini-bar">
-                <div style={{ flex: pAp, backgroundColor: 'var(--color-r)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9 }}>{pAp}%</div>
-                <div style={{ flex: drp, backgroundColor: 'var(--color-surf)', color: 'var(--color-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, borderLeft: '1px solid var(--color-brd)', borderRight: '1px solid var(--color-brd)' }}>{drp}%</div>
-                <div style={{ flex: pBp, backgroundColor: 'var(--color-b)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9 }}>{pBp}%</div>
-              </div>
-
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ marginBottom: 6, display: 'flex', justifyContent: 'flex-end' }}>
-                  <FlagImg name={m.teamB} h={28} emoji={tB?.flag ?? '🏳️'} />
-                </div>
-                <div style={{ fontSize: 10, lineHeight: 1.8 }}>{m.teamB}</div>
-                <div style={{ fontSize: 9, color: 'var(--color-muted)', marginTop: 2 }}>{tB?.conf}</div>
-                {!pickIsA && m.k === m.teamB && <span className="k-badge">K✓</span>}
-              </div>
-            </Link>
-          )
-        })}
       </div>
-      </div>
-    </div>
+    </PageTransition>
   )
 }

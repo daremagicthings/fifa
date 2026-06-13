@@ -38,7 +38,13 @@ export default function GroupCard({ group, teams }: Props) {
         <button
           onClick={() => setTick(t => t + 1)}
           title="Re-simulate"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 10, color: 'var(--color-b)', padding: 0, lineHeight: 1 }}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer', fontSize: 14,
+            color: 'var(--color-blue)', padding: 0, lineHeight: 1,
+            transition: 'transform 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.transform = 'rotate(180deg)')}
+          onMouseLeave={e => (e.currentTarget.style.transform = 'rotate(0)')}
         >🎲</button>
       </div>
       <table className="group-table">
@@ -55,15 +61,18 @@ export default function GroupCard({ group, teams }: Props) {
             const advancing = i < 2
             return (
               <tr key={s.team}>
-                <td style={{ maxWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <td style={{ maxWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: advancing ? 600 : 400 }}>
                   {advancing && <span className="qual-dot" />}
-                  <FlagImg name={s.team} h={14} emoji={t?.flag ?? '🏳️'} />
+                  <FlagImg name={s.team} h={16} emoji={t?.flag ?? '🏳️'} />
                   {' '}{s.team}
                 </td>
                 <td>{s.w}</td>
                 <td>{s.d}</td>
                 <td>{s.l}</td>
-                <td style={{ fontWeight: advancing ? 'bold' : 'normal', color: advancing ? 'var(--color-r)' : 'var(--color-txt)' }}>
+                <td style={{
+                  fontWeight: 700,
+                  color: advancing ? 'var(--color-green)' : 'var(--text-secondary)',
+                }}>
                   {s.pts}
                 </td>
               </tr>
@@ -75,17 +84,20 @@ export default function GroupCard({ group, teams }: Props) {
       <button
         onClick={() => setOpen(o => !o)}
         style={{
-          width: '100%', padding: '6px 10px', textAlign: 'left',
-          fontSize: 9, color: 'var(--color-muted)', backgroundColor: 'transparent',
-          border: 'none', borderTop: '1px solid var(--color-brd)',
+          width: '100%', padding: '10px 14px', textAlign: 'left',
+          fontSize: 12, color: 'var(--text-tertiary)', backgroundColor: 'transparent',
+          border: 'none', borderTop: '1px solid var(--border)',
           cursor: 'pointer', fontFamily: 'inherit',
+          transition: 'color 0.15s',
         }}
+        onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-tertiary)')}
       >
-        {open ? '▲ HIDE MATCHES' : '▼ SHOW MATCHES'}
+        {open ? '▲ Hide Matches' : '▼ Show Matches'}
       </button>
 
       {open && (
-        <div style={{ borderTop: '1px solid var(--color-brd)' }}>
+        <div style={{ borderTop: '1px solid var(--border)' }}>
           {results.map(({ teamA, teamB, result }, i) => (
             <GroupMatchRow key={i} teamA={teamA} teamB={teamB} result={result} />
           ))}

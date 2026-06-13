@@ -15,7 +15,6 @@ export default function FlagImg({ name, h = 24, emoji = '🏳' }: Props) {
   const w = Math.round(h * 1.5)
 
   if (!code || failed) {
-    // Plain text country code fallback — readable on all platforms including Windows
     return (
       <span style={{
         display: 'inline-flex',
@@ -23,10 +22,11 @@ export default function FlagImg({ name, h = 24, emoji = '🏳' }: Props) {
         justifyContent: 'center',
         width: w,
         height: h,
-        fontSize: Math.max(6, Math.round(h * 0.45)),
-        color: 'var(--color-muted)',
-        backgroundColor: 'var(--color-surf)',
-        border: '1px solid var(--color-brd)',
+        fontSize: Math.max(8, Math.round(h * 0.45)),
+        color: 'var(--text-tertiary)',
+        backgroundColor: 'var(--bg-muted)',
+        border: '1px solid var(--border)',
+        borderRadius: 4,
         fontFamily: 'monospace',
         fontStyle: 'normal',
         verticalAlign: 'middle',
@@ -39,7 +39,6 @@ export default function FlagImg({ name, h = 24, emoji = '🏳' }: Props) {
     )
   }
 
-  // SVG from flagcdn.com — scales cleanly to any size, no width-bucketing needed
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -51,9 +50,11 @@ export default function FlagImg({ name, h = 24, emoji = '🏳' }: Props) {
       style={{
         display: 'inline-block',
         verticalAlign: 'middle',
-        border: '1px solid var(--color-brd)',
+        borderRadius: 3,
         objectFit: 'cover',
         flexShrink: 0,
+        boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+        border: '1px solid rgba(0,0,0,0.06)',
       }}
     />
   )

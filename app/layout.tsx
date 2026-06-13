@@ -1,12 +1,19 @@
 import type { Metadata } from 'next'
-import { Press_Start_2P } from 'next/font/google'
+import { Inter, DM_Serif_Display } from 'next/font/google'
 import './globals.css'
 import Nav from '@/components/ui/Nav'
 
-const pixelFont = Press_Start_2P({
-  weight: '400',
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-pixel',
+  variable: '--font-sans',
+  display: 'swap',
+})
+
+const dmSerif = DM_Serif_Display({
+  weight: ['400'],
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -17,16 +24,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={pixelFont.variable}>
+    <html lang="en" className={`${inter.variable} ${dmSerif.variable}`}>
       <body>
         <div className="page-wrap">
           <Nav />
           <main>{children}</main>
           <footer className="footer">
-            <span style={{ fontSize: 6, color: 'var(--color-muted)' }}>
-              © 2026 KLEMENT MODEL · ALL SIMULATIONS RUN IN-BROWSER
+            <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+              © 2026 Klement Model · All simulations run in-browser
             </span>
-            <span style={{ fontSize: 6, color: 'var(--color-r)' }}>PANMURE LIBERUM ▲</span>
+            <span style={{ fontSize: 12, color: 'var(--color-blue)', fontWeight: 600 }}>Panmure Liberum</span>
           </footer>
         </div>
       </body>

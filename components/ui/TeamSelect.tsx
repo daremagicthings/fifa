@@ -38,7 +38,7 @@ export default function TeamSelect({ teams, value, onChange, style }: Props) {
   const t = teamData(value)
 
   return (
-    <div ref={ref} style={{ position: 'relative', ...style }}>
+    <div ref={ref} style={{ position: 'relative', width: '100%', ...style }}>
       {/* Trigger */}
       <button
         onClick={() => setOpen(o => !o)}
@@ -46,83 +46,106 @@ export default function TeamSelect({ teams, value, onChange, style }: Props) {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
-          padding: '8px 10px',
-          backgroundColor: 'var(--color-bg)',
-          border: '2px solid var(--color-brd2)',
-          boxShadow: '3px 3px 0 var(--color-brd)',
+          gap: 12,
+          padding: '12px 16px',
+          backgroundColor: 'var(--bg-card)',
+          border: open ? '1px solid var(--border-mid)' : '1px solid var(--border)',
+          borderRadius: 12,
           cursor: 'pointer',
           fontFamily: 'inherit',
-          fontSize: 9,
-          color: 'var(--color-txt)',
+          fontSize: 14,
+          color: 'var(--text-primary)',
           textAlign: 'left',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.01)',
+          transition: 'all 0.2s',
+        }}
+        onMouseEnter={e => {
+          if (!open) e.currentTarget.style.borderColor = 'var(--border-mid)'
+        }}
+        onMouseLeave={e => {
+          if (!open) e.currentTarget.style.borderColor = 'var(--border)'
         }}
       >
-        <FlagImg name={value} h={16} emoji={t?.flag ?? '🏳️'} />
-        <span style={{ flex: 1 }}>{value}</span>
-        <span style={{ color: 'var(--color-muted)', fontSize: 8 }}>{open ? '▲' : '▼'}</span>
+        <FlagImg name={value} h={20} emoji={t?.flag ?? '🏳️'} />
+        <span style={{ flex: 1, fontWeight: 600 }}>{value}</span>
+        <span style={{ color: 'var(--text-tertiary)', fontSize: 10, transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0)' }}>▼</span>
       </button>
 
       {/* Dropdown */}
       {open && (
         <div style={{
           position: 'absolute',
-          top: '100%',
+          top: 'calc(100% + 6px)',
           left: 0,
           right: 0,
           zIndex: 200,
-          backgroundColor: 'var(--color-bg)',
-          border: '2px solid var(--color-brd2)',
-          borderTop: 'none',
-          boxShadow: '4px 4px 0 var(--color-brd)',
+          backgroundColor: '#FFFFFF',
+          border: '1px solid var(--border-mid)',
+          borderRadius: 12,
+          boxShadow: '0 12px 32px rgba(0,0,0,0.08)',
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: 260,
+          maxHeight: 280,
+          overflow: 'hidden',
+          animation: 'fadeUp 0.15s ease-out',
         }}>
           <input
             ref={inputRef}
             type="text"
-            placeholder="SEARCH TEAMS..."
+            placeholder="Search teams..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             style={{
               fontFamily: 'inherit',
-              fontSize: 8,
-              padding: '7px 10px',
+              fontSize: 13,
+              padding: '12px 16px',
               border: 'none',
-              borderBottom: '1px solid var(--color-brd)',
-              backgroundColor: 'var(--color-surf)',
-              color: 'var(--color-txt)',
+              borderBottom: '1px solid var(--border)',
+              backgroundColor: '#FFFFFF',
+              color: 'var(--text-primary)',
               outline: 'none',
               flexShrink: 0,
             }}
           />
-          <div style={{ overflowY: 'auto' }}>
-            {filtered.map(name => {
-              const td = teamData(name)
-              const isSelected = name === value
-              return (
-                <div
-                  key={name}
-                  onClick={() => { onChange(name); setOpen(false); setSearch('') }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    padding: '5px 10px',
-                    cursor: 'pointer',
-                    fontSize: 9,
-                    backgroundColor: isSelected ? 'var(--color-b-bg)' : 'transparent',
-                    color: isSelected ? 'var(--color-b)' : 'var(--color-txt)',
-                    borderBottom: '1px solid var(--color-brd)',
-                  }}
-                >
-                  <FlagImg name={name} h={14} emoji={td?.flag ?? '🏳️'} />
-                  <span>{name}</span>
-                  {isSelected && <span style={{ marginLeft: 'auto', fontSize: 7, color: 'var(--color-b)' }}>✓</span>}
-                </div>
-              )
-            })}
+          <div style={{ overflowY: 'auto', backgroundColor: '#FFFFFF' }}>
+            {filtered.length === 0 ? (
+              <div style={{ padding: '16px', fontSize: 13, color: 'var(--text-tertiary)', textAlign: 'center' }}>
+                No teams found
+              </div>
+            ) : (
+              filtered.map(name => {
+                const td = teamData(name)
+                const isSelected = name === value
+                return (
+                  <div
+                    key={name}
+                    onClick={() => { onChange(name); setOpen(false); setSearch('') }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      padding: '10px 16px',
+                      cursor: 'pointer',
+                      fontSize: 13,
+                      backgroundColor: isSelected ? 'var(--color-blue-soft)' : '#FFFFFF',
+                      color: isSelected ? 'var(--color-blue)' : 'var(--text-primary)',
+                      borderBottom: '1px solid var(--border)',
+                      transition: 'background 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      if (!isSelected) (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--bg-surface)'
+                    }}
+                    onMouseLeave={e => {
+                      if (!isSelected) (e.currentTarget as HTMLElement).style.backgroundColor = '#FFFFFF'
+                    }}
+                  >
+                    <FlagImg name={name} h={16} emoji={td?.flag ?? '🏳️'} />
+                    <span style={{ fontWeight: isSelected ? 600 : 400 }}>{name}</span>
+                    {isSelected && <span style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--color-blue)' }}>✓</span>}
+                  </div>
+                )
+              })
+            )}
           </div>
         </div>
       )}
