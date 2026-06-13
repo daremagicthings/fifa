@@ -25,6 +25,7 @@ WC26 Klement is a Next.js app that surfaces Joachim Klement's econometric World 
 - **Group Stage** — All 12 groups simulated client-side on load with round-robin W/D/L standings
 - **Knockout Bracket** — Klement's predicted bracket from R32 to the Final, with his picks highlighted
 - **Monte Carlo** — Run 100–5,000 full tournament simulations in the browser; see the champion distribution sorted by frequency
+- **Live Odds Comparison** — Compare Klement's econometric win probabilities against live betting market implied odds fetched from the Polymarket Gamma API, displaying value edges for arbitrage analysis.
 - **Model Explainer** — Formula, factor weights, the luck component (σ = 0.28), and Klement's sources
 - **Live Rankings** — GitHub Actions fetches the FIFA API every Thursday and patches `teams.json`, then triggers ISR revalidation
 
@@ -42,6 +43,7 @@ WC26 Klement is a Next.js app that surfaces Joachim Klement's econometric World 
 | Trionda Light design | Color system inspired by the Adidas Trionda FIFA WC 2026 ball |
 | Glass aesthetic | Subtle `backdrop-filter` glass cards + color panel strips (blue/red/green) |
 | Plus Jakarta Sans | Geometric sans heading font paired with Inter for body copy |
+| Live Betting Odds | Integrates the Polymarket Gamma API to display implied market probabilities and value edges |
 
 ---
 
@@ -142,8 +144,8 @@ graph LR
 
 ```bash
 # 1. Clone
-git clone https://github.com/x-cookie/kalsh-main.git
-cd kalsh-main
+git clone https://github.com/daremagicthings/fifa.git
+cd fifa
 
 # 2. Install dependencies
 npm install
@@ -177,6 +179,7 @@ klement-model/
 │   ├── mc/page.tsx              ← Monte Carlo simulator
 │   ├── groups/page.tsx          ← 12 group-stage cards with simulated standings
 │   ├── knockout/[round]/        ← r32 | r16 | qf | sf | final
+│   ├── odds/page.tsx            ← Live betting odds comparison dashboard
 │   ├── about/page.tsx           ← Model explainer, formula, references
 │   └── api/revalidate/route.ts  ← ISR revalidation endpoint
 │
@@ -187,6 +190,7 @@ klement-model/
 │   │   ├── Tag.tsx              ← Pill label (blue / red / green / gray)
 │   │   ├── Btn.tsx              ← Button/link (primary | green | default | ghost)
 │   │   ├── HeroBanner.tsx       ← CSS conic-gradient Trionda ball graphic
+│   │   ├── ProgressBar.tsx      ← Accent styling progress indicator
 │   │   ├── PageTransition.tsx   ← Framer Motion page wrapper
 │   │   └── SectionLabel.tsx     ← Uppercase section header
 │   ├── match/
